@@ -46,7 +46,7 @@ def check_dup_files():
                 hx = get_file_hash(filepath)
                 if hx == None: continue
                 if hx in dupdict:
-                    logger.warning(f'filehash {hx} is duplicated on {dupdict[hx]} and {filepath}')
+                    logger.warning(f'filehash {hx} is duplicated, hash conflict in `{dupdict[hx]}` and `{filepath}`')
                     dup = True
                 else:
                     dupdict[hx] = filepath
