@@ -2,8 +2,11 @@ import os
 from functools import reduce
 import hashlib
 import warnings
+import re 
 
 CHECK_DIRS = ['./01.working', './02.labeled', './03.verified']
+LABELED_DIRS = ['./02.labeled', './03.verified']
+MATCH_SKIP_FILES = ['.gitkeep']
 EXPECTED_TOTAL_PNG_COUNT = 5002
 
 
@@ -41,3 +44,14 @@ def test_dup_files():
                 else:
                     dupdict[hx] = filepath
     assert(dup == False)
+
+def test_label_naming_rule():
+    for labeled_dir in LABELED_DIRS:
+        files = os.listdir(labeled_dir)
+        for file in files:
+            if file in MATCH_SKIP_FILES: continue
+            assert(file.endswith('.png'))
+            assert(1 < len(file.split('.')) <= 3)
+            
+            label = file.split('.')[0]
+            assert(re.match(r'^[0-9]{4}$', label) != None)
